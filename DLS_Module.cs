@@ -19,7 +19,7 @@ namespace BNet
 
         public override string Header
         {
-            get { return "BNet Server by Sagu, Ralek"; }
+            get { return "BNet Server by Sagu"; }
         }
 
         public override string Version

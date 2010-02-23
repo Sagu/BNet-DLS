@@ -58,7 +58,8 @@ namespace BNet.Plugin.ConsoleModules
                             try
                             {
                                 byte[] packet = DeepLogic.Core.HexUtils.GetBytes(String.Join(" ",args.Where(a => args.IndexOf(a) > 0)));
-                                new Thread(delegate() { InjectPacket(packet); }).Start();
+                                //new Thread(delegate() { InjectPacket(packet); }).Start();
+                                InjectPacket(packet);
                             }
                             catch (Exception e)
                             {
@@ -67,7 +68,8 @@ namespace BNet.Plugin.ConsoleModules
                         }
                         else
                         {
-                            new Thread(delegate() { InjectPacket(); }).Start();
+                            //new Thread(delegate() { InjectPacket(); }).Start();
+                            InjectPacket();
                         }
                         break;
                     }
@@ -78,7 +80,8 @@ namespace BNet.Plugin.ConsoleModules
                             try
                             {
                                 byte[] packet = DeepLogic.Core.HexUtils.GetBytes(String.Join(" ", args.Where(a => args.IndexOf(a) > 0)));
-                                new Thread(delegate() { QueuePacket(packet); }).Start();
+                                //new Thread(delegate() { QueuePacket(packet); }).Start();
+                                QueuePacket(packet);
                             }
                             catch (Exception e)
                             {
@@ -87,7 +90,8 @@ namespace BNet.Plugin.ConsoleModules
                         }
                         else
                         {
-                            new Thread(delegate() { QueuePacket(); }).Start();
+                            //new Thread(delegate() { QueuePacket(); }).Start();
+                            QueuePacket();
                         }
                         break;
                     }
@@ -138,6 +142,17 @@ namespace BNet.Plugin.ConsoleModules
                     bs.WriteByte(b);
             }
             NetHandler.AuxServer.Broadcast(bs.ToByteArray());
+
+            StringBuilder _logEntry = new StringBuilder();
+            _logEntry.AppendLine("Packet Injected");
+            _logEntry.AppendLine(((bs.Length32 > 1) ? "[BitStream]\n" : "BitStream: ") + bs.ToString());
+            _logEntry.AppendLine("[Hex]\n" + DeepLogic.Core.HexUtils.HexView(bs.ToByteArray()));
+            _logEntry.AppendLine();
+            DeepLogic.Core.ErrorHandler.Log("BitStream_BNET", "Notice", _logEntry.ToString());
+            if (!DeepLogic.Core.ErrorHandler.stdout)
+            {
+                Console.WriteLine(_logEntry.ToString());
+            }
         }
 
         public void QueuePacket(byte[] Packet = null)
@@ -155,12 +170,24 @@ namespace BNet.Plugin.ConsoleModules
                 foreach (byte b in Packet)
                     bs.WriteByte(b);
             }
+
             NetHandler.AuxServer.ReceivedDataHandler -= NetHandler.ProcessPacket;
+            NetHandler.AuxServer.ReceivedDataHandler -= QueuePacket_Callback;
             NetHandler.AuxServer.ReceivedDataHandler += QueuePacket_Callback;
             PacketQueue.Enqueue(bs.ToByteArray());
+
+            StringBuilder _logEntry = new StringBuilder();
+            _logEntry.AppendLine("Packet Queued (" + PacketQueue.Count + " in queue)");
+            _logEntry.AppendLine(((bs.Length32 > 1)? "[BitStream]\n" : "BitStream: ") + bs.ToString());
+            _logEntry.AppendLine("[Hex]\n" + DeepLogic.Core.HexUtils.HexView(bs.ToByteArray()));
+            _logEntry.AppendLine();
+            DeepLogic.Core.ErrorHandler.Log("BitStream_BNET", "Notice", _logEntry.ToString());
+            if (!DeepLogic.Core.ErrorHandler.stdout)
+            {
+                Console.WriteLine(_logEntry.ToString());
+            }
         }
 
-#error AuxServer Bug? 6am, no sleep yet, resuming tomorrow
         public void QueuePacket_Callback(byte[] Data, DeepLogic.Object_Wrappers.NetworkClient User)
         {
             //Handle potential rogue async callback

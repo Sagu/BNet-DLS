@@ -1,4 +1,5 @@
 ﻿//Most code taken from Patrick Sapinski's http://github.com/kow/Starcraft-2-Battle.Net-Wrapper repo
+//DEPRECIATED! Now using Shared.Streams.BitStream
 using System;
 using System.Text;
 
