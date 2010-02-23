@@ -181,8 +181,7 @@ namespace BNet
                     subNum = numBits;
 
                 var lShift = (byte)(1 << subNum);
-
-                int v10 = _buffer[ReadPos >> 3] >> (ReadPos & 7);
+                long v10 = _buffer[ReadPos >> 3] >> (ReadPos & 7);
                 numBits -= subNum;
 
                 ret |= ((lShift - 1) & v10) << numBits;

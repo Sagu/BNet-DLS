@@ -17,16 +17,16 @@ namespace BNet.Plugin
             DLS_Module.LocalAPI = new API.DLS(new TimeSpan(0, 5, 0));
             DLS_Module.LocalAPI.SetServer("localhost", "net.pipe");
 
-            //Register our Console Plugin
+            //Register our Console Plugin (DEPRECIATION WARNING - Types will be picked up through reflection in DLS build 1040)
             DeepLogic.Core.ErrorHandler.Log("BNet", "Notice", "Registering Console Module");
             DeepLogic.Core.ExpConsole.C_Driver.Plugins.Add(typeof(ConsoleModules.BNetExpConsole));
+            DeepLogic.Core.ExpConsole.C_Driver.Plugins.Add(typeof(ConsoleModules.BitStreamExpConsole));
 
             //Start networking
-            NetHandler netHandler = new NetHandler();
-            DeepLogic.Net.AuxSocketServer AuxServer = new DeepLogic.Net.AuxSocketServer(1119);
-            AuxServer.ReceivedDataHandler += netHandler.ProcessPacket;
+            NetHandler.AuxServer = new DeepLogic.Net.AuxSocketServer(1119);
+            NetHandler.AuxServer.ReceivedDataHandler += NetHandler.ProcessPacket;
             DeepLogic.Core.ErrorHandler.Log("BNet", "Notice", "Registered data handler with Aux Server");
-            AuxServer.Start();
+            NetHandler.AuxServer.Start();
         }
 
         public void InitializePluginUser()
