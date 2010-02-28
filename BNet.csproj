@@ -37,6 +37,18 @@
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="API">
+      <HintPath>vendor\API.dll</HintPath>
+    </Reference>
+    <Reference Include="BitStreamEditor">
+      <HintPath>vendor\BitStreamEditor.exe</HintPath>
+    </Reference>
+    <Reference Include="DeepLogic">
+      <HintPath>vendor\DeepLogic.dll</HintPath>
+    </Reference>
+    <Reference Include="DeepLogic.Shared">
+      <HintPath>vendor\DeepLogic.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -60,24 +72,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol.cs" />
     <Compile Include="RC4.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BitStreamEditor\BitStreamEditor.csproj">
-      <Project>{C1E91366-A993-4223-BD42-A1F35E318BE8}</Project>
-      <Name>BitStreamEditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeepLogic.Shared\DeepLogic.Shared.csproj">
-      <Project>{D5F28FEF-8469-429F-A4EA-99933A526919}</Project>
-      <Name>DeepLogic.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeepLogicServer\DeepLogic.csproj">
-      <Project>{D156B168-4375-4668-B107-D8D16B26750E}</Project>
-      <Name>DeepLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DLS_API\API.csproj">
-      <Project>{A7A89F67-F694-4BCD-8E30-231C5EB09107}</Project>
-      <Name>API</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />

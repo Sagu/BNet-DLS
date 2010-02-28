@@ -2,6 +2,7 @@
 bin/Debug/
 obj/
 RELEASE/DLS_BNet/
-*DeepLogic.dll
 *.pdb
 bin/
+RELEASE/
+*.suo
